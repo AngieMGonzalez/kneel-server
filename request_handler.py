@@ -4,24 +4,32 @@ from views import (
     get_all_metals,
     get_single_metal,
     create_metal,
+    delete_metal,
     get_all_styles,
     get_single_style,
     create_style,
+    delete_style,
     get_all_orders,
     get_single_order,
     create_order,
+    delete_order,
     get_all_sizes,
     get_single_size,
-    create_size
+    create_size,
+    delete_size
 )
 
 class HandleRequests(BaseHTTPRequestHandler):
     """Controls the functionality of any GET, PUT, POST, DELETE requests to the server
     """
+    # the instance of itself is self = languages that use instances
+    # instatiation is creating an instance
     def parse_url(self, path):
         """
-        This function splits the client path string into parts to isolate the requested id
+        This method splits the client path string into parts to isolate the requested id. 
         """
+        # dot notate on method
+        # you can [] notate on a dictionary
         # Just like splitting a string in JavaScript. If the
         # path is "/animals/1", the resulting list will
         # have "" at index 0, "animals" at index 1, and "1"
@@ -52,6 +60,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         if resource == "metals":
             if id is not None:
                 response = get_single_metal(id)
+                # response = { "message": f"Metal {id} is rocking out" }
             else:
                 response = get_all_metals()
 
@@ -110,6 +119,24 @@ class HandleRequests(BaseHTTPRequestHandler):
         """Handles PUT requests to the server """
         self.do_POST()
 
+    def do_DELETE(self):
+        """deletes resource
+        """
+        self._set_headers(204)
+
+        (resource, id) = self.parse_url(self.path)
+
+        if resource == "metals":
+            delete_metal(id)
+        if resource == "orders":
+            delete_order(id)
+        if resource == "sizes":
+            delete_size(id)
+        if resource == "styles":
+            delete_style(id)
+
+        self.wfile.write("".encode())
+
     def _set_headers(self, status):
         """Sets the status code, Content-Type and Access-Control-Allow-Origin
         headers on the response
@@ -128,9 +155,9 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods',
-                          'GET, POST, PUT, DELETE')
+                        'GET, POST, PUT, DELETE')
         self.send_header('Access-Control-Allow-Headers',
-                          'X-Requested-With, Content-Type, Accept')
+                        'X-Requested-With, Content-Type, Accept')
         self.end_headers()
 
 
