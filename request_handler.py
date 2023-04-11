@@ -5,18 +5,22 @@ from views import (
     get_single_metal,
     create_metal,
     delete_metal,
+    update_metal,
     get_all_styles,
     get_single_style,
     create_style,
     delete_style,
+    update_style,
     get_all_orders,
     get_single_order,
     create_order,
     delete_order,
+    update_order,
     get_all_sizes,
     get_single_size,
     create_size,
-    delete_size
+    delete_size,
+    update_size
 )
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -116,14 +120,35 @@ class HandleRequests(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(new_style).encode())
 
     def do_PUT(self):
-        """Handles PUT requests to the server """
-        self.do_POST()
+        """Handles PUT requests to the server replaces WHOLE resource for UPDATE
+        """
+        self._set_headers(204)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        (resource, id) = self.parse_url(self.path)
+
+        # Update a single resource in the list
+        if resource == "orders":
+            update_order(id, post_body)
+        if resource == "metals":
+            update_metal(id, post_body)
+        if resource == "sizes":
+            update_size(id, post_body)
+        if resource == "styles":
+            update_style(id, post_body)
+
+        # Encode the order and send in response
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         """deletes resource
         """
+        # sets a 204 response code
         self._set_headers(204)
 
+        # parse the URL
         (resource, id) = self.parse_url(self.path)
 
         if resource == "metals":
