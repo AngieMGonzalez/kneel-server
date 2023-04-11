@@ -3,12 +3,16 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from views import (
     get_all_metals,
     get_single_metal,
+    create_metal,
     get_all_styles,
     get_single_style,
+    create_style,
     get_all_orders,
     get_single_order,
+    create_order,
     get_all_sizes,
     get_single_size,
+    create_size
 )
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -72,13 +76,35 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps(response).encode())
 
     def do_POST(self):
-        """Handles POST requests to the server """
+        """Handles POST aka CREATE requests to the server
+        """
         self._set_headers(201)
-
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
-        response = {"payload": post_body}
-        self.wfile.write(json.dumps(response).encode())
+
+        # Convert JSON string to a Python dictionary
+        post_body = json.loads(post_body)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        # Initialize new resource
+        if resource == "orders":
+            new_order = create_order(post_body)
+            # Encode the new resource and send in response
+            self.wfile.write(json.dumps(new_order).encode())
+
+        if resource == "metals":
+            new_metal = create_metal(post_body)
+            self.wfile.write(json.dumps(new_metal).encode())
+
+        if resource == "sizes":
+            new_size = create_size(post_body)
+            self.wfile.write(json.dumps(new_size).encode())
+
+        if resource == "styles":
+            new_style = create_style(post_body)
+            self.wfile.write(json.dumps(new_style).encode())
 
     def do_PUT(self):
         """Handles PUT requests to the server """
