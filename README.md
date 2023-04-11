@@ -11,3 +11,6 @@
 
 - refresh on Object Oriented Programming 
 - https://learn.microsoft.com/en-us/training/modules/python-object-oriented-programming/
+
+## Models Packages
+- WhenDefiningAClass, it should be PascalCased or CamelCased and NOT snake_cases.
