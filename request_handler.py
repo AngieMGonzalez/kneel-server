@@ -100,6 +100,8 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
+        # id is defining how you split the URL, its aLIST and u do need the id
+        # you could do like self.path[0]
 
         # Initialize new resource
         if resource == "orders":
