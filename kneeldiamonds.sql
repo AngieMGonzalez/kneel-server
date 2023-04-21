@@ -61,5 +61,7 @@ SELECT
     o.style_id,
     o.jewelry_id,
     o.timestamp
-FROM Orders o
+FROM orders o
 WHERE o.id = 3;
+
+SELECT * FROM Orders ORDER BY id DESC;
