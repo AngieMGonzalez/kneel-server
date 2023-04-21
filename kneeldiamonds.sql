@@ -65,3 +65,5 @@ FROM orders o
 WHERE o.id = 3;
 
 SELECT * FROM Orders ORDER BY id DESC;
+
+INSERT INTO `Orders` VALUES (null, 23, 23, 23, 2, 2);
