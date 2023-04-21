@@ -78,6 +78,15 @@ SELECT
     o.jewelry_id,
     o.timestamp,
     m.metal,
-    m.price
+    m.price metal_price,
+    z.carets,
+    z.price size_price,
+    y.style,
+    y.price style_price
 FROM `Orders` o
-JOIN Metals m ON m.id = o.metal_id;
+JOIN Metals m
+    on m.id = o.metal_id
+JOIN Sizes z
+    on z.id = o.size_id
+JOIN Styles y
+    on y.id = o.style_id;

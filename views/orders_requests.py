@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Order, Metal
+from models import Order, Metal, Size, Style
 
 
 ORDERS = [
@@ -35,10 +35,18 @@ def get_all_orders():
             o.jewelry_id,
             o.timestamp,
             m.metal,
-            m.price
+            m.price metal_price,
+            z.carets,
+            z.price size_price,
+            y.style,
+            y.price style_price
         FROM Orders o
         JOIN Metals m
             on m.id = o.metal_id
+        JOIN Sizes z
+            on z.id = o.size_id
+        JOIN Styles y
+            on y.id = o.style_id
         """)
 
         # Initialize an empty list to hold all animal representations
@@ -59,9 +67,22 @@ def get_all_orders():
                             row['style_id'], row['jewelry_id'],
                             row['timestamp'])
 
-            metal = Metal(row['metal_id'], row['metal'], row['price'])
+            # Create a Metal instance from the current row
+            metal = Metal(row['metal_id'], row['metal'], row['metal_price'])
+
+            # Create a Style instance from the current row
+            style = Style(row['style_id'], row['style'], row['style_price'])
+
+            # Create a Size instance from the current row
+            size = Size(row['size_id'], row['carets'], row['size_price'])
+
+            # Add the dictionary representation of related object to the order instance
+            # Here what added the size would look like
+            order.size = size.__dict__
 
             order.metal = metal.__dict__
+
+            order.style = style.__dict__
 
             orders.append(order.__dict__)
 
