@@ -62,4 +62,4 @@ SELECT
     o.jewelry_id,
     o.timestamp
 FROM Orders o
-WHERE o.id = 2;
+WHERE o.id = 3;
