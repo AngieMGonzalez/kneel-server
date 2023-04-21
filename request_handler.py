@@ -55,10 +55,11 @@ class HandleRequests(BaseHTTPRequestHandler):
         return (resource, id)  # This is a tuple
 
     def do_GET(self):
-        """Handles GET all/single resource/s requests to the server
+        """GET all/single resource/s requests server
         """
         self._set_headers(200)
         response = {}
+        # Parse the URL and capture the tuple that is returned
         (resource, id) = self.parse_url(self.path)
 
         if resource == "metals":
@@ -67,20 +68,17 @@ class HandleRequests(BaseHTTPRequestHandler):
                 # response = { "message": f"Metal {id} is rocking out" }
             else:
                 response = get_all_metals()
-
-        if resource == "orders":
+        elif resource == "orders":
             if id is not None:
                 response = get_single_order(id)
             else:
                 response = get_all_orders()
-
-        if resource == "sizes":
+        elif resource == "sizes":
             if id is not None:
                 response = get_single_size(id)
             else:
                 response = get_all_sizes()
-
-        if resource == "styles":
+        elif resource == "styles":
             if id is not None:
                 response = get_single_style(id)
             else:

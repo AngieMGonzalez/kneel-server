@@ -28,3 +28,38 @@ CREATE TABLE `Styles` (
     `style` TEXT NOT NULL,
     `price` NUMERIC(5,2) NOT NULL
 );
+
+INSERT INTO `Metals`VALUES (null, "Sterling Silver", 12.42);
+INSERT INTO `Metals`VALUES (null, "14K Gold", 736.4);
+INSERT INTO `Metals`VALUES (null, "24K Gold", 1258.9);
+INSERT INTO `Metals`VALUES (null, "Platinum", 795.45);
+INSERT INTO `Metals`VALUES (null, "Palladium", 1241);
+
+INSERT INTO `Sizes` VALUES (null, 0.5, 405);
+INSERT INTO `Sizes` VALUES (null, 0.75, 782);
+INSERT INTO `Sizes` VALUES (null, 1, 1470);
+INSERT INTO `Sizes` VALUES (null, 1.5, 1997);
+INSERT INTO `Sizes` VALUES (null, 2, 3638);
+
+INSERT INTO `Styles` VALUES (null, "Classic", 500);
+INSERT INTO `Styles` VALUES (null, "Modern", 710);
+INSERT INTO `Styles` VALUES (null, "Vintage", 965);
+
+INSERT INTO `Orders` VALUES (null, 1, 1, 1, 1, 11111);
+INSERT INTO `Orders` VALUES (null, 2, 2, 2, 2, 22222);
+INSERT INTO `Orders` VALUES (null, 3, 3, 3, 3, 33333);
+INSERT INTO `Orders` VALUES (null, 4, 4, 1, 4, 44444);
+INSERT INTO `Orders` VALUES (null, 5, 5, 2, 5, 55555);
+
+SELECT * FROM Orders;
+
+-- Get only the order rows where the `id` field value is 3
+-- SELECT
+--     o.id,
+--     o.metal_id,
+--     o.size_id,
+--     o.style_id,
+--     o.jewelry_id,
+--     o.timestamp
+-- FROM order o
+-- WHERE o.id = 2;

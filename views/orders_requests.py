@@ -1,3 +1,8 @@
+import sqlite3
+import json
+from models import Order
+
+
 ORDERS = [
     {
         "id": 1,
@@ -11,8 +16,53 @@ ORDERS = [
 
 
 def get_all_orders():
-    """Handles Server request for all ORDERS"""
-    return ORDERS
+    """get all SQL
+    """
+    # Open a connection to the database
+    with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
+
+        # Just use these. It's a Black Box.
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Write the SQL query to get the information you want
+        db_cursor.execute("""
+        SELECT
+            o.id,
+            o.metal_id,
+            o.size_id,
+            o.style_id,
+            o.jewelry_id,
+            o.timestamp
+        FROM order o
+        """)
+
+        # Initialize an empty list to hold all animal representations
+        orders = []
+
+        # Convert rows of data into a Python list
+        dataset = db_cursor.fetchall()
+
+        # Iterate list of data returned from database
+        for row in dataset:
+
+            # Create an order instance from the current row.
+            # Note that the database fields are specified in
+            # exact order of the parameters defined in the
+            # Order class above.
+            order = Order(row['id'], row['metal_id'], row['size_id'],
+                            row['style_id'], row['jewelry_id'],
+                            row['timestamp'])
+
+            orders.append(order.__dict__)
+
+        #     self.id = id
+        # self.name = name
+        # self.address = address
+        # self.email = email
+        # self.password = password
+
+    return orders
 
 
 def get_single_order(id):
