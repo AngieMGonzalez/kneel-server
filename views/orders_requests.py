@@ -56,24 +56,35 @@ def get_all_orders():
 
             orders.append(order.__dict__)
 
-        #     self.id = id
-        # self.name = name
-        # self.address = address
-        # self.email = email
-        # self.password = password
-
     return orders
 
-
 def get_single_order(id):
-    """gets a single order"""
-    requested_order = None
+    with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
 
-    for order in ORDERS:
-        if order["id"] == id:
-            requested_order = order
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT
+            o.id,
+            o.metal_id,
+            o.size_id,
+            o.style_id,
+            o.jewelry_id,
+            o.timestamp
+        FROM Orders o
+        WHERE o.id = ?
+        """, ( id, ))
 
-    return requested_order
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+
+        # Create an order instance from the current row
+        order = Order(data['id'], data['metal_id'], data['size_id'],
+                        data['style_id'], data['jewelry_id'], data['timestamp'])
+
+        return order.__dict__
 
 
 def create_order(order):
