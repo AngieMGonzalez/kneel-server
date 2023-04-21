@@ -54,12 +54,12 @@ INSERT INTO `Orders` VALUES (null, 5, 5, 2, 5, 55555);
 SELECT * FROM Orders;
 
 -- Get only the order rows where the `id` field value is 3
--- SELECT
---     o.id,
---     o.metal_id,
---     o.size_id,
---     o.style_id,
---     o.jewelry_id,
---     o.timestamp
--- FROM order o
--- WHERE o.id = 2;
+SELECT
+    o.id,
+    o.metal_id,
+    o.size_id,
+    o.style_id,
+    o.jewelry_id,
+    o.timestamp
+FROM Orders o
+WHERE o.id = 2;

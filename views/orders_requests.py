@@ -34,7 +34,7 @@ def get_all_orders():
             o.style_id,
             o.jewelry_id,
             o.timestamp
-        FROM order o
+        FROM Orders o
         """)
 
         # Initialize an empty list to hold all animal representations
