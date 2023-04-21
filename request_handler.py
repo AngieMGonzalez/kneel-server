@@ -120,24 +120,31 @@ class HandleRequests(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(new_style).encode())
 
     def do_PUT(self):
-        """Handles PUT requests to the server replaces WHOLE resource for UPDATE
+        """PUT update_entry server request replace WHOLE resource
         """
-        self._set_headers(204)
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
         post_body = json.loads(post_body)
 
+        # Parse the URL
         (resource, id) = self.parse_url(self.path)
+
+        success = False
 
         # Update a single resource in the list
         if resource == "orders":
             update_order(id, post_body)
-        if resource == "metals":
+        elif resource == "metals":
             update_metal(id, post_body)
-        if resource == "sizes":
+        elif resource == "sizes":
             update_size(id, post_body)
-        if resource == "styles":
+        elif resource == "styles":
             update_style(id, post_body)
+
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
 
         # Encode the order and send in response
         self.wfile.write("".encode())

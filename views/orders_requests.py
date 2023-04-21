@@ -44,6 +44,7 @@ def get_all_orders():
         dataset = db_cursor.fetchall()
 
         # Iterate list of data returned from database
+        # row is TACO
         for row in dataset:
 
             # Create an order instance from the current row.
