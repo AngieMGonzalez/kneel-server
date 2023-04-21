@@ -9,3 +9,6 @@ class Order():
         self.style_id = style_id
         self.jewelry_id = jewelry_id
         self.timestamp = timestamp
+        self.style = None
+        self.metal = None
+        self.size = None
