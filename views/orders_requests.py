@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Order
+from models import Order, Metal
 
 
 ORDERS = [
@@ -33,8 +33,12 @@ def get_all_orders():
             o.size_id,
             o.style_id,
             o.jewelry_id,
-            o.timestamp
+            o.timestamp,
+            m.metal,
+            m.price
         FROM Orders o
+        JOIN Metals m
+            on m.id = o.metal_id
         """)
 
         # Initialize an empty list to hold all animal representations
@@ -55,11 +59,17 @@ def get_all_orders():
                             row['style_id'], row['jewelry_id'],
                             row['timestamp'])
 
+            metal = Metal(row['metal_id'], row['metal'], row['price'])
+
+            order.metal = metal.__dict__
+
             orders.append(order.__dict__)
 
     return orders
 
 def get_single_order(id):
+    """gets single resource
+    """
     with sqlite3.connect("./kneeldiamonds.sqlite3") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()

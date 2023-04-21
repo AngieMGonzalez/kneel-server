@@ -69,3 +69,15 @@ SELECT * FROM Orders ORDER BY id DESC;
 INSERT INTO `Orders` VALUES (null, 23, 23, 23, 2, 2);
 
 SELECT * FROM Metals;
+
+SELECT
+    o.id,
+    o.metal_id,
+    o.size_id,
+    o.style_id,
+    o.jewelry_id,
+    o.timestamp,
+    m.metal,
+    m.price
+FROM `Orders` o
+JOIN Metals m ON m.id = o.metal_id;
